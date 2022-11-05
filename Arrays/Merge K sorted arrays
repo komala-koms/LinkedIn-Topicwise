@@ -1,0 +1,81 @@
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+import java.util.*;
+public class Main
+{
+     public static void merge(ArrayList<Integer> ans1, ArrayList<Integer> ans2,ArrayList<Integer> ans)
+    {
+        int m = ans1.size();
+        int n = ans2.size();
+        int i=0,j=0;
+        while(i<m && j<n)
+        {
+            if(ans1.get(i) < ans2.get(j))
+            {
+                ans.add(ans1.get(i));
+                i+=1;
+            }
+            else
+            {
+                ans.add(ans2.get(j));
+                j++;
+            }
+        }
+        while(i<m)
+        {
+            ans.add(ans1.get(i));
+            i+=1;
+        }
+        while(j<n)
+        {
+            ans.add(ans2.get(j));
+            j+=1;
+        }
+    }
+    public static void mergeArrays(int[][] arr,int low, int high, ArrayList<Integer> ans)
+    {
+        if(low>high)
+            return;
+        if(low ==high)
+            {
+                for(int i:arr[low])
+                    ans.add(i);
+                    return;
+            }
+        ArrayList<Integer> ans1 = new ArrayList<Integer>();
+        ArrayList<Integer> ans2 = new ArrayList<Integer>();
+        if(high-low == 1)
+        {
+            for(int i:arr[low])
+                ans1.add(i);
+            for(int i: arr[high])
+                ans2.add(i);
+            merge(ans1,ans2,ans);
+            return;
+        }
+        int mid = (low+high)/2;
+        
+        mergeArrays(arr,low,mid,ans1);
+        mergeArrays(arr,mid+1,high,ans2);
+        merge(ans1,ans2,ans);
+    }
+   public static void main(String[] args) 
+    {
+        // Write your code here.
+        int[][] arr = new int[][]{{1,2,3},{4,5,6},{7,8,9}};
+        int K = 3;
+        ArrayList<Integer> ans = new ArrayList<Integer>();
+        int low =0,high=K-1;
+        mergeArrays(arr,low,high,ans);
+        for(int i=0;i<ans.size();i++)
+        {
+            System.out.println(ans.get(i));
+        }
+    }
+	
+}
