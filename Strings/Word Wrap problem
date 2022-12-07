@@ -1,0 +1,53 @@
+/******************************************************************************
+
+                            Online Java Compiler.
+                Code, Compile, Run and Debug java program online.
+Write your code in this editor and press "Run" button to execute it.
+
+*******************************************************************************/
+import java.util.*;
+public class Main
+{
+    public static int cube(int a)
+    {
+        return a*a*a;
+    }
+    public static int solve(int idx,int n,int[] arr, int k, int remLength)
+    {
+        if(idx == n-1)
+        {
+            if(arr[idx]<remLength)
+            {
+                return cube(remLength-arr[idx]);
+                
+            }
+            else
+            {
+                return cube(remLength) + cube(k-arr[idx]);  
+               
+            }
+        }
+        if(arr[idx] < remLength)
+        {
+            int take = solve(idx+1,n,arr,k,remLength-arr[idx]);
+            int notTake = cube(remLength) + solve(idx+1,n,arr,k,k);
+            return Math.min(take,notTake);
+        }
+        else
+        {
+            return cube(remLength) + solve(idx+1,n,arr,k,k);
+        }
+    }
+    public static int findCost(int[] arr, int k)
+    {
+        int n = arr.length;
+        return solve(0,n,arr,k,0);
+    }
+	public static void main(String[] args) 
+	{
+	    int arr[] = new int[]{3,2,2,5};
+	    int k =6;
+	    int ans = findCost(arr,k);
+	    System.out.println("ans "+ans);
+	}
+}
